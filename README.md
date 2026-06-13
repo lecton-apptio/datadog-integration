@@ -216,15 +216,26 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Documentation**: [README.md](README.md)
 - **Contributing**: [CONTRIBUTING.md](CONTRIBUTING.md)
 
+## Versioning
+
+This project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html):
+
+- **MAJOR** version for incompatible API changes
+- **MINOR** version for new functionality in a backward compatible manner
+- **PATCH** version for backward compatible bug fixes
+
+Current version: **0.1.0**
+
 ## Changelog
 
-### 0.1.0 (2026-06-12)
+See [CHANGELOG.md](CHANGELOG.md) for a detailed history of changes.
 
-- Initial release
-- API key validation
+### Latest Release: Version 0.1.0 (2026-06-12)
+
+- Initial release with API key validation
 - Application key permission testing
 - Dashboard and metrics read verification
-- CLI tool
-- Full type annotations
-- Comprehensive test coverage
-- CI/CD pipeline for Ubuntu, macOS, and Windows
+- CLI tool with environment variable support
+- Full type annotations and comprehensive test coverage
+
+For complete release history, see [CHANGELOG.md](CHANGELOG.md).

@@ -2,7 +2,7 @@
 
 import json
 import os
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Optional
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
@@ -15,8 +15,8 @@ class ValidationResult:
         ok: bool,
         status: Optional[int] = None,
         curl: str = "",
-        data: Optional[Dict[str, Any]] = None,
-        error: Optional[Dict[str, Any]] = None,
+        data: Optional[dict[str, Any]] = None,
+        error: Optional[dict[str, Any]] = None,
     ) -> None:
         """Initialize validation result.
 
@@ -33,9 +33,9 @@ class ValidationResult:
         self.data = data or {}
         self.error = error or {}
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert result to dictionary."""
-        result: Dict[str, Any] = {"ok": self.ok, "status": self.status, "curl": self.curl}
+        result: dict[str, Any] = {"ok": self.ok, "status": self.status, "curl": self.curl}
         if self.data:
             result["data"] = self.data
         if self.error:
@@ -52,7 +52,7 @@ def load_env_file(path: str = ".env") -> None:
     if not os.path.exists(path):
         return
 
-    with open(path, "r", encoding="utf-8") as env_file:
+    with open(path, encoding="utf-8") as env_file:
         for raw_line in env_file:
             line = raw_line.strip()
             if not line or line.startswith("#") or "=" not in line:
@@ -82,7 +82,7 @@ def redact_secret(value: Optional[str]) -> Optional[str]:
     return f"{value[:4]}...{value[-4:]}"
 
 
-def build_curl_command(url: str, headers: Dict[str, str]) -> str:
+def build_curl_command(url: str, headers: dict[str, str]) -> str:
     """Build a curl command with redacted secrets.
 
     Args:
@@ -99,7 +99,7 @@ def build_curl_command(url: str, headers: Dict[str, str]) -> str:
     return " \\\n  ".join(parts)
 
 
-def request_json(url: str, headers: Dict[str, str], timeout: int = 20) -> Tuple[int, Any]:
+def request_json(url: str, headers: dict[str, str], timeout: int = 20) -> tuple[int, Any]:
     """Make an HTTP request and parse JSON response.
 
     Args:
@@ -116,7 +116,7 @@ def request_json(url: str, headers: Dict[str, str], timeout: int = 20) -> Tuple[
         return response.status, json.loads(body)
 
 
-def safe_request_json(url: str, headers: Dict[str, str]) -> ValidationResult:
+def safe_request_json(url: str, headers: dict[str, str]) -> ValidationResult:
     """Make a safe HTTP request with error handling.
 
     Args:
@@ -175,7 +175,7 @@ class DatadogValidator:
         self.app_key_name = app_key_name
         self.app_key_id = app_key_id
 
-    def get_config_summary(self) -> Dict[str, Any]:
+    def get_config_summary(self) -> dict[str, Any]:
         """Get a summary of configured credentials.
 
         Returns:
@@ -240,7 +240,7 @@ class DatadogValidator:
 
         return safe_request_json(f"https://api.{self.site}/api/v1/metrics", headers)
 
-    def get_missing_api_key_error(self) -> Dict[str, Any]:
+    def get_missing_api_key_error(self) -> dict[str, Any]:
         """Get error message for missing API key when app key is present.
 
         Returns:
@@ -266,5 +266,6 @@ class DatadogValidator:
                 ],
             },
         }
+
 
 # Made with Bob
