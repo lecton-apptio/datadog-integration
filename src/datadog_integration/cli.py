@@ -2,7 +2,6 @@
 
 import json
 import os
-import sys
 from typing import Optional
 
 from datadog_integration.core import DatadogValidator, load_env_file

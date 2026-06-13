@@ -1,4 +1,4 @@
-.PHONY: help install install-dev format lint type-check test test-cov clean build
+.PHONY: help install install-dev format lint type-check test test-cov clean build all-checks
 
 help:
 	@echo "Available targets:"
@@ -11,6 +11,7 @@ help:
 	@echo "  test-cov     - Run tests with coverage report"
 	@echo "  clean        - Remove build artifacts and cache files"
 	@echo "  build        - Build distribution packages"
+	@echo "  all-checks   - Run all quality checks (format, lint, type-check, test)"
 
 install:
 	pip install -e .
@@ -47,5 +48,15 @@ clean:
 
 build: clean
 	python -m build
+
+all-checks:
+	@echo "Running Black formatter..."
+	black src tests
+	@echo "\nRunning Ruff linter..."
+	ruff check src tests
+	@echo "\nRunning MyPy type checker..."
+	mypy src
+	@echo "\nRunning tests with coverage..."
+	pytest --cov=datadog_integration --cov-report=term-missing
 
 # Made with Bob
